@@ -11,7 +11,7 @@ class PrimaryBudgetCard extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: const Color.fromRGBO(10, 10, 10, 1),
+        color: const Color.fromRGBO(230, 230, 230, 1),
       ),
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.all(20),
