@@ -1,3 +1,4 @@
+import 'package:flourish/core/routes/app_router.dart';
 import 'package:flourish/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -8,10 +9,11 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
+  final _appRouter = AppRouter();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flourish',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(useMaterial3: true).copyWith(
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      routerConfig: _appRouter.config(),
     );
   }
 }

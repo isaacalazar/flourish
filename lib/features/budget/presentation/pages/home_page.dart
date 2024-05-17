@@ -4,8 +4,9 @@ import 'package:flourish/features/budget/presentation/widgets/primary_budget_car
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({
+@RoutePage()
+class HomePage extends StatelessWidget {
+  const HomePage({
     super.key,
   });
 
