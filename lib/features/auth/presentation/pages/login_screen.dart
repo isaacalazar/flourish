@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(),
       body: Column(
         children: [
-          const Gap(25),
+          const Gap(100),
           RichText(
             text: TextSpan(
               text: "It's time to",
@@ -57,7 +57,7 @@ class LoginScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => AutoRouter.of(context).push(const HomeRoute()),
+        onPressed: () => AutoRouter.of(context).push(const SignInRoute()),
         backgroundColor: Colors.transparent,
         elevation: 0, // Remove default elevation
         child: Container(
