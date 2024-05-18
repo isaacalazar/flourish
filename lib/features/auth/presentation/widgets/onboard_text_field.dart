@@ -32,10 +32,10 @@ class _OnBoardTextFieldState extends State<OnBoardTextField> {
         controller: widget.textEditingController,
         decoration: InputDecoration(
           prefixIcon: widget.fieldName == "Email"
-              ? Icon(Icons.email, color: Color.fromRGBO(20, 193, 20, 1))
-              : Icon(Icons.lock, color: Color.fromRGBO(20, 193, 20, 1)),
+              ? const Icon(Icons.email, color: Color.fromRGBO(20, 193, 20, 1))
+              : const Icon(Icons.lock, color: Color.fromRGBO(20, 193, 20, 1)),
           hintText: widget.fieldName,
-          prefixIconColor: Color.fromRGBO(20, 193, 20, 1),
+          prefixIconColor: const Color.fromRGBO(20, 193, 20, 1),
           border: InputBorder.none,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
@@ -43,19 +43,19 @@ class _OnBoardTextFieldState extends State<OnBoardTextField> {
           ),
           disabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.red,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Color.fromRGBO(20, 193, 20, 1),
               width: 1.2,
             ),
           ),
           filled: shouldFill,
-          fillColor: Color.fromRGBO(20, 193, 20, .1),
+          fillColor: const Color.fromRGBO(20, 193, 20, .1),
         ),
         obscureText: widget.fieldName == "Password" ? true : false,
         validator: (value) {

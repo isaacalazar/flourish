@@ -1,8 +1,10 @@
+import 'package:flourish/core/cubit/app_user_cubit.dart';
 import 'package:flourish/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:flourish/features/auth/data/repository/auth_repository.dart';
 import 'package:flourish/features/auth/domain/repository/auth_repository.dart';
 import 'package:flourish/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:flourish/features/auth/usecases/sign_user_in.dart';
+import 'package:flourish/features/auth/usecases/user_sign_in.dart';
+import 'package:flourish/features/auth/usecases/user_sign_up.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,18 +15,20 @@ Future<void> initDependencies() async {
   _initAuth();
 
   final supabase = await Supabase.initialize(
-    url: "https://freqaeaajvltowpsimty.supabase.co",
+    url: "https://mdehuriwdlblkfnmyegp.supabase.co",
     anonKey:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZXFhZWFhanZsdG93cHNpbXR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5MTYzMTQsImV4cCI6MjAzMTQ5MjMxNH0.4Jl8iqv4nwYPrwG8UaJz8Qv9pnsfX_nyLA2JL7SIBns",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kZWh1cml3ZGxibGtmbm15ZWdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYwMDIzODUsImV4cCI6MjAzMTU3ODM4NX0.BRTFYDup10_k6WQMtlRvUGQR_RR14AB2cwTONhzBZa4",
   );
 
-  serviceLocator.registerLazySingleton(() => supabase);
+  serviceLocator.registerLazySingleton(() => AppUserCubit());
+
+  serviceLocator.registerLazySingleton(() => supabase.client);
 }
 
 void _initAuth() {
   serviceLocator.registerFactory<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(
-      client: serviceLocator(),
+      serviceLocator(),
     ),
   );
   serviceLocator.registerFactory<AuthRepository>(
@@ -37,10 +41,9 @@ void _initAuth() {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory(() => UserSignIn(serviceLocator()));
   serviceLocator.registerLazySingleton(
-    () => AuthBloc(
-      serviceLocator(),
-    ),
+    () => AuthBloc(serviceLocator(), serviceLocator(), serviceLocator()),
   );
 }
 

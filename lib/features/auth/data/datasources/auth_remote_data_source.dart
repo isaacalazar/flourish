@@ -17,13 +17,29 @@ abstract interface class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient client;
-  AuthRemoteDataSourceImpl({required this.client});
+  AuthRemoteDataSourceImpl(this.client);
 
   @override
   Future<UserModel> signInWithEmail(
-      {required String email, required String password}) {
-    // TODO: implement signInWithEmail
-    throw UnimplementedError();
+      {required String email, required String password}) async {
+    try {
+      print("TOP");
+      print(password);
+      print(email);
+      final auth_request = await client.auth
+          .signInWithPassword(password: password, email: email);
+      print(auth_request);
+      if (auth_request == null) {
+        print("NULL");
+        throw CustomException("Auth Request was null");
+      }
+      print(UserModel.fromJson(auth_request.user!.toJson()));
+      return UserModel.fromJson(auth_request.user!.toJson());
+    } catch (e) {
+      print(e.toString());
+      print("FAILED AT BOTTOM");
+      throw CustomException("Client Auth not succeeded");
+    }
   }
 
   @override
@@ -32,12 +48,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       required String name,
       required String password}) async {
     try {
-      final auth_request =
-          await client.auth.signUp(email: email, password: password);
+      final auth_request = await client.auth.signUp(
+        password: password.toString(),
+        email: email.toString(),
+        data: {
+          'name': name.toString(),
+          'email': email.toString(),
+          'globalBalance': 0,
+          'allocatedBudget': 100,
+        },
+      );
 
       if (auth_request == null) {
         throw CustomException("Auth Request was null");
       }
+      print("SENT");
       return UserModel.fromJson(auth_request.user!.toJson());
     } catch (e) {
       throw CustomException("Client Auth not succeeded");
