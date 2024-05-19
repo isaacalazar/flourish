@@ -1,17 +1,34 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flourish/core/cubit/app_user_cubit.dart';
+import 'package:flourish/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flourish/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:flourish/features/budget/presentation/widgets/budget_card.dart';
 import 'package:flourish/features/budget/presentation/widgets/primary_budget_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 @RoutePage()
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
   });
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    // context.read<BudgetBloc>().add(BudgetFetchAllBudgets("Isaac"));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userId = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
+    print(userId);
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -20,11 +37,11 @@ class HomePage extends StatelessWidget {
           icon: const Icon(Icons.menu),
           iconSize: 28,
         ),
-        title: const Align(
+        title: Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "Hello, User",
-            style: TextStyle(
+            "Hello, $userId",
+            style: const TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),

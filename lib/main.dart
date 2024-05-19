@@ -1,8 +1,10 @@
 import 'package:flourish/core/cubit/app_user_cubit.dart';
+import 'package:flourish/core/entities/budget.dart';
 import 'package:flourish/core/routes/app_router.dart';
 
 import 'package:flourish/dependency_injections.dart';
 import 'package:flourish/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flourish/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,19 +14,30 @@ void main() async {
 
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(
-          create: (_) =>
-              AuthBloc(serviceLocator(), serviceLocator(), serviceLocator())),
-      BlocProvider(create: (_) => AppUserCubit())
+      BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+      BlocProvider(create: (_) => serviceLocator<BudgetBloc>()),
+      BlocProvider(create: (_) => serviceLocator<AppUserCubit>())
     ],
     child: MyApp(),
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final _appRouter = AppRouter();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

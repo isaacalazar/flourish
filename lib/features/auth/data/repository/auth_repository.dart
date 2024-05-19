@@ -13,14 +13,12 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> signInWithEmail(
       {required String email, required String password}) async {
     try {
-      print("here");
       final user = await authRemoteDataSource.signInWithEmail(
           email: email, password: password);
-      print(user);
+      print(user.toString());
+      print("sub level");
       return right(user);
     } on CustomException catch (e) {
-      print(e.customMessage);
-      print("FAILED");
       return left(Failure(e.customMessage));
     }
   }

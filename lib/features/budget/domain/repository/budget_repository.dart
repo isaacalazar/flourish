@@ -1,0 +1,19 @@
+import 'dart:io';
+
+import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/core/entities/user.dart';
+import 'package:flourish/core/errors/failure.dart';
+import 'package:flourish/features/budget/data/models/budget_model.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:uuid/uuid.dart';
+
+abstract class BudgetRepository {
+  Future<Either<Failure, List<Budget>>> fetchAllBudgets();
+
+  Future<Either<Failure, Budget>> createBudget({
+    required String budgetName,
+    required int budgetAmount,
+    required int budgetMaxAmount,
+    required File image,
+  });
+}

@@ -1,36 +1,37 @@
-import 'dart:convert';
-
 import 'package:flourish/core/entities/user.dart';
 
 class UserModel extends User {
   UserModel({
     required super.id,
-    required super.name,
     required super.email,
+    required super.name,
     required super.globalBalance,
     required super.allocatedBudget,
   });
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'name': name,
-      'email': email,
-      'globalBalance': globalBalance,
-      'allocatedBudget': allocatedBudget,
-    };
+  factory UserModel.fromJson(Map<String, dynamic> map) {
+    print(map['name']);
+    print("THIS IS THE NAME");
+    return UserModel(
+      id: map['id'] ?? "",
+      email: map['email'] ?? "",
+      name: map['name'] ?? "",
+      globalBalance: map['globalBalance'] ?? 0,
+      allocatedBudget: map['allocatedBudget'] ?? 0,
+    );
   }
 
-  factory UserModel.fromJson(Map<String, dynamic> map) {
-    print(map);
-    print(map['id']);
-    print(map['name']);
+  UserModel copyWith(
+      {String? id,
+      String? email,
+      String? name,
+      int? allocatedBudget,
+      int? globalBalance}) {
     return UserModel(
-      id: map['id'] as String,
-      name: "Isaac",
-      email: "salazarisaac1001@gmail.com",
-      globalBalance: 0,
-      allocatedBudget: 0,
-    );
+        id: id ?? this.id,
+        email: email ?? this.email,
+        name: name ?? this.name,
+        globalBalance: globalBalance ?? this.globalBalance,
+        allocatedBudget: allocatedBudget ?? this.allocatedBudget);
   }
 }

@@ -12,7 +12,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignIn _userSignIn;
   final AppUserCubit _appUserCubit;
   AuthBloc(
-      UserSignUp userSignUp, AppUserCubit appUserCubit, UserSignIn userSignIn)
+      {required UserSignUp userSignUp,
+      required AppUserCubit appUserCubit,
+      required UserSignIn userSignIn})
       : _userSignUp = userSignUp,
         _appUserCubit = appUserCubit,
         _userSignIn = userSignIn,
@@ -40,6 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthFailure(l.message));
       }, (r) {
         print("SUCCEEDED");
+
         _appUserCubit.updateUser(r);
         emit(AuthSuccess());
       });

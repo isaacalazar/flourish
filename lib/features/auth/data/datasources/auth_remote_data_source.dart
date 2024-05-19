@@ -13,6 +13,10 @@ abstract interface class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
+  Session? get currentUserSession;
+
+  Future<UserModel?> getUserCurrentData();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -20,25 +24,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this.client);
 
   @override
+  Session? get currentUserSession => client.auth.currentSession;
+
+  @override
   Future<UserModel> signInWithEmail(
       {required String email, required String password}) async {
     try {
-      print("TOP");
-      print(password);
-      print(email);
-      final auth_request = await client.auth
+      final authRequest = await client.auth
           .signInWithPassword(password: password, email: email);
-      print(auth_request);
-      if (auth_request == null) {
+
+      if (authRequest == null) {
         print("NULL");
-        throw CustomException("Auth Request was null");
       }
-      print(UserModel.fromJson(auth_request.user!.toJson()));
-      return UserModel.fromJson(auth_request.user!.toJson());
+
+      return UserModel.fromJson(authRequest.user!.toJson());
     } catch (e) {
       print(e.toString());
       print("FAILED AT BOTTOM");
-      throw CustomException("Client Auth not succeeded");
+      throw const CustomException("Client Auth not succeeded");
     }
   }
 
@@ -48,24 +51,42 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       required String name,
       required String password}) async {
     try {
-      final auth_request = await client.auth.signUp(
-        password: password.toString(),
-        email: email.toString(),
+      print(name);
+      print(email);
+      print(password);
+      final authRequest = await client.auth.signUp(
+        password: password,
+        email: email,
         data: {
-          'name': name.toString(),
-          'email': email.toString(),
+          'name': name,
           'globalBalance': 0,
           'allocatedBudget': 100,
         },
       );
 
-      if (auth_request == null) {
-        throw CustomException("Auth Request was null");
+      if (authRequest == null) {
+        throw const CustomException("Auth Request was null");
       }
       print("SENT");
-      return UserModel.fromJson(auth_request.user!.toJson());
+      return UserModel.fromJson(authRequest.user!.toJson());
     } catch (e) {
-      throw CustomException("Client Auth not succeeded");
+      throw const CustomException("Client Auth not succeeded");
     }
+  }
+
+  @override
+  Future<UserModel?> getUserCurrentData() async {
+    try {
+      if (currentUserSession != null) {
+        final fetchedUserData = await client
+            .from('profiles')
+            .select()
+            .eq('id', currentUserSession!.user.id);
+
+        return UserModel.fromJson(fetchedUserData.first)
+            .copyWith(email: currentUserSession!.user.email)
+            .copyWith(name: currentUserSession!.user.userMetadata!['name']);
+      }
+    } catch (e) {}
   }
 }
