@@ -15,7 +15,7 @@ class PrimaryBudgetCard extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: const Color.fromRGBO(230, 230, 230, 1),
+        color: const Color.fromRGBO(40, 40, 40, 1),
       ),
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.all(20),
@@ -25,8 +25,14 @@ class PrimaryBudgetCard extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("You've spent"),
-              Text("Left in budget"),
+              Text(
+                "You've spent",
+                style: TextStyle(color: Colors.white),
+              ),
+              Text(
+                "Left in budget",
+                style: TextStyle(color: Colors.white),
+              ),
             ],
           ),
           const Gap(5),
@@ -35,13 +41,19 @@ class PrimaryBudgetCard extends StatelessWidget {
             children: [
               Text(
                 "\$$budgetAmount",
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
               ),
               Text(
                 "\$$currentBudget",
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
@@ -55,9 +67,7 @@ class PrimaryBudgetCard extends StatelessWidget {
           const Gap(10),
           const Text(
             "8 days left this month.",
-            style: TextStyle(
-              fontSize: 12,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.white),
           ),
         ],
       ),

@@ -10,13 +10,12 @@ class UserModel extends User {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
-    print(map);
     return UserModel(
       id: map['id'] ?? "",
       email: map['email'] ?? "",
       name: map['name'] ?? "",
-      globalBalance: map['globalBalance'] ?? 0,
-      allocatedBudget: map['allocatedBudget'] ?? 0,
+      globalBalance: map['global_balance'] ?? 0,
+      allocatedBudget: map['allocated_budget'] ?? 0,
     );
   }
 

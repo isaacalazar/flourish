@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flourish/core/cubit/app_user_cubit.dart';
+import 'package:flourish/core/routes/app_router.dart';
 import 'package:flourish/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flourish/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:flourish/features/budget/presentation/widgets/budget_card.dart';
@@ -84,7 +85,9 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          AutoRouter.of(context).push(CreateBudgetRoute());
+        },
         child: const Icon(
           Icons.draw,
           color: Colors.white,

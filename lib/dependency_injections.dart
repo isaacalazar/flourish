@@ -22,10 +22,9 @@ Future<void> initDependencies() async {
   _initBudget();
 
   final supabase = await Supabase.initialize(
-    url: "https://ocjglgvcuapfkehtimlw.supabase.co",
-    anonKey:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9jamdsZ3ZjdWFwZmtlaHRpbWx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYxNzQzMTksImV4cCI6MjAzMTc1MDMxOX0.Fj5PJNR5FCwY2KYqMMRhbkeXwXbSJMbqOEFRR8y7myM",
-  );
+      url: "https://xbpvzrqhafvgjrxskjmy.supabase.co",
+      anonKey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhicHZ6cnFoYWZ2Z2pyeHNram15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyMzUyODMsImV4cCI6MjAzMTgxMTI4M30.A9BL_4wdU7oT_uacTsPsmS1b8omSm6uhRS0Djyvq-t8");
 
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 

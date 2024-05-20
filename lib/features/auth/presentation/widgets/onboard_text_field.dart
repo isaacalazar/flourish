@@ -7,10 +7,10 @@ class OnBoardTextField extends StatefulWidget {
   final String fieldName;
 
   const OnBoardTextField({
-    Key? key,
+    super.key,
     required this.textEditingController,
     required this.fieldName,
-  }) : super(key: key);
+  });
 
   @override
   State<OnBoardTextField> createState() => _OnBoardTextFieldState();
