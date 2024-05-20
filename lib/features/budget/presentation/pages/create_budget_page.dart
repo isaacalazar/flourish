@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
-import 'package:image_picker/image_picker.dart';
 
 @RoutePage()
 class CreateBudgetPage extends StatefulWidget {
@@ -26,10 +25,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
   File? image;
 
   void selectImage() async {
-    print("TOP");
     final pickedImage = await pickImage();
-    print("BOTTOM");
-    print(pickedImage);
     if (pickedImage != null) {
       print("NOT NULL");
       setState(() {
@@ -58,29 +54,47 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
+            const Gap(35),
             GestureDetector(
               onTap: () {
                 selectImage();
               },
-              child: DottedBorder(
-                radius: Radius.circular(10),
-                borderType: BorderType.RRect,
-                strokeCap: StrokeCap.round,
-                child: Container(
-                  height: 150,
-                  width: double.infinity,
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.camera, size: 30),
-                      const Gap(10),
-                      Text("Insert goal image")
-                    ],
-                  ),
-                ),
-              ),
+              child: image != null
+                  ? GestureDetector(
+                      onTap: () {
+                        selectImage();
+                      },
+                      child: SizedBox(
+                        height: 200,
+                        width: double.infinity,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.file(
+                            image!,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    )
+                  : DottedBorder(
+                      radius: const Radius.circular(10),
+                      borderType: BorderType.RRect,
+                      strokeCap: StrokeCap.round,
+                      child: const SizedBox(
+                        height: 150,
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.camera, size: 30),
+                            Gap(10),
+                            Text("Insert goal image")
+                          ],
+                        ),
+                      ),
+                    ),
             ),
-            const Gap(10),
+            const Gap(30),
             BudgetFieldText(
               controller: budgetNameController,
               hintText: "Insert the name of your goal!",
