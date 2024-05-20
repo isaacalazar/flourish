@@ -33,14 +33,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final authRequest = await client.auth
           .signInWithPassword(password: password, email: email);
 
-      if (authRequest == null) {
+      if (authRequest.user == null) {
         print("NULL");
       }
 
-      return UserModel.fromJson(authRequest.user!.toJson());
+      return UserModel.fromJson(authRequest.user!.toJson())
+          .copyWith(name: authRequest.user!.userMetadata!['name']);
     } catch (e) {
-      print(e.toString());
-      print("FAILED AT BOTTOM");
       throw const CustomException("Client Auth not succeeded");
     }
   }
@@ -51,24 +50,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       required String name,
       required String password}) async {
     try {
-      print(name);
-      print(email);
-      print(password);
+      print("SENT");
       final authRequest = await client.auth.signUp(
         password: password,
         email: email,
         data: {
           'name': name,
-          'globalBalance': 0,
-          'allocatedBudget': 100,
+          'allocated_budget': 100,
+          'global_balance': 0,
         },
       );
-
-      if (authRequest == null) {
-        throw const CustomException("Auth Request was null");
+      print(authRequest);
+      if (authRequest.user == null) {
+        throw const CustomException("Auth User was null");
       }
-      print("SENT");
-      return UserModel.fromJson(authRequest.user!.toJson());
+
+      return UserModel.fromJson(authRequest.user!.toJson())
+          .copyWith(name: authRequest.user!.userMetadata!['name']);
     } catch (e) {
       throw const CustomException("Client Auth not succeeded");
     }
@@ -83,10 +81,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             .select()
             .eq('id', currentUserSession!.user.id);
 
+        print(fetchedUserData.first);
+        print("this is fetched data");
         return UserModel.fromJson(fetchedUserData.first)
             .copyWith(email: currentUserSession!.user.email)
             .copyWith(name: currentUserSession!.user.userMetadata!['name']);
       }
-    } catch (e) {}
+    } catch (e) {
+      throw const CustomException("Client Auth not succeeded");
+    }
   }
 }

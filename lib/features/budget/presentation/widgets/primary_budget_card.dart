@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class PrimaryBudgetCard extends StatelessWidget {
-  const PrimaryBudgetCard({super.key});
+  final int budgetAmount;
+  final int currentBudget;
+
+  const PrimaryBudgetCard(
+      {super.key, required this.budgetAmount, required this.currentBudget});
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +30,18 @@ class PrimaryBudgetCard extends StatelessWidget {
             ],
           ),
           const Gap(5),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "\$500",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                "\$$budgetAmount",
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Text(
-                "\$1000",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                "\$$currentBudget",
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ],
           ),

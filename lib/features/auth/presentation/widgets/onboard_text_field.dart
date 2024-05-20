@@ -59,7 +59,9 @@ class _OnBoardTextFieldState extends State<OnBoardTextField> {
         ),
         obscureText: widget.fieldName == "Password" ? true : false,
         validator: (value) {
-          if (value != null) {}
+          if (widget.textEditingController.text.isEmpty) {
+            return "Needs to be filled";
+          }
           return null;
         },
       ),

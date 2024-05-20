@@ -3,6 +3,7 @@ import 'package:flourish/features/auth/data/datasources/auth_remote_data_source.
 import 'package:flourish/features/auth/data/repository/auth_repository.dart';
 import 'package:flourish/features/auth/domain/repository/auth_repository.dart';
 import 'package:flourish/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flourish/features/auth/usecases/user_get_data.dart';
 import 'package:flourish/features/auth/usecases/user_sign_in.dart';
 import 'package:flourish/features/auth/usecases/user_sign_up.dart';
 import 'package:flourish/features/budget/data/datasources/budget_remote_data_source.dart';
@@ -21,9 +22,9 @@ Future<void> initDependencies() async {
   _initBudget();
 
   final supabase = await Supabase.initialize(
-    url: "https://sivqqvknvuluqvmfnzts.supabase.co",
+    url: "https://ocjglgvcuapfkehtimlw.supabase.co",
     anonKey:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpdnFxdmtudnVsdXF2bWZuenRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYxNDg5MjcsImV4cCI6MjAzMTcyNDkyN30.zDlFHX5tc0wQOucNrCapZ2XfKGqghS8jdboCh_sPbXc",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9jamdsZ3ZjdWFwZmtlaHRpbWx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYxNzQzMTksImV4cCI6MjAzMTc1MDMxOX0.Fj5PJNR5FCwY2KYqMMRhbkeXwXbSJMbqOEFRR8y7myM",
   );
 
   serviceLocator.registerLazySingleton(() => AppUserCubit());
@@ -47,13 +48,18 @@ void _initAuth() {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory(
+    () => UserGetData(
+      serviceLocator(),
+    ),
+  );
   serviceLocator.registerFactory(() => UserSignIn(serviceLocator()));
   serviceLocator.registerLazySingleton(
     () => AuthBloc(
-      userSignIn: serviceLocator(),
-      userSignUp: serviceLocator(),
-      appUserCubit: serviceLocator(),
-    ),
+        userSignIn: serviceLocator(),
+        userSignUp: serviceLocator(),
+        appUserCubit: serviceLocator(),
+        getUserData: serviceLocator()),
   );
 }
 

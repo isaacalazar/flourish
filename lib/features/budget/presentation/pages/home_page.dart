@@ -27,8 +27,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final userId = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
-    print(userId);
+    final userData =
+        (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         title: Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "Hello, $userId",
+            "Hello, ${userData.name}",
             style: const TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -52,7 +53,10 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           const Gap(10),
-          const PrimaryBudgetCard(),
+          PrimaryBudgetCard(
+            currentBudget: userData.globalBalance,
+            budgetAmount: userData.allocatedBudget,
+          ),
           const Gap(20),
           const Padding(
             padding: EdgeInsets.only(left: 20),

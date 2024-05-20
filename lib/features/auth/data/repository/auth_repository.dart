@@ -15,8 +15,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final user = await authRemoteDataSource.signInWithEmail(
           email: email, password: password);
-      print(user.toString());
-      print("sub level");
+
       return right(user);
     } on CustomException catch (e) {
       return left(Failure(e.customMessage));
@@ -33,6 +32,21 @@ class AuthRepositoryImpl implements AuthRepository {
           email: email, name: username, password: password);
 
       return right(user);
+    } on CustomException catch (e) {
+      return left(Failure(e.customMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> getUserCurrentData() async {
+    try {
+      final userData = await authRemoteDataSource.getUserCurrentData();
+
+      if (userData == null) {
+        return left(Failure("User not found"));
+      }
+
+      return right(userData);
     } on CustomException catch (e) {
       return left(Failure(e.customMessage));
     }

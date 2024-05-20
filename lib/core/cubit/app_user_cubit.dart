@@ -8,12 +8,13 @@ class AppUserCubit extends Cubit<AppUserState> {
   AppUserCubit() : super(AppUserInitial());
 
   void updateUser(User? user) {
-    print(user == null ? "NULL" : "NOT NULL");
     if (user == null) {
       emit(AppUserInitial());
     } else {
-      print("EMITTED USER LOGGED IN");
+      print(user.toString());
       emit(AppUserLoggedIn(user));
     }
   }
+
+  void setAppWideUser(User? user) {}
 }

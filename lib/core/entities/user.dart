@@ -13,4 +13,9 @@ class User {
     required this.globalBalance,
     required this.allocatedBudget,
   });
+
+  @override
+  String toString() {
+    return 'User(id: $id, name: $name, email: $email, globalBalance: $globalBalance, allocatedBudget: $allocatedBudget)';
+  }
 }
