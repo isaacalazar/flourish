@@ -16,3 +16,5 @@ final class BudgetUpload extends BudgetEvent {
   BudgetUpload(
       this.budgetName, this.budgetAmount, this.budgetMaxAmount, this.image);
 }
+
+final class BudgetWatch extends BudgetEvent {}

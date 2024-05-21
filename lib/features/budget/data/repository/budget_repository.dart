@@ -8,6 +8,7 @@ import 'package:flourish/features/budget/data/datasources/budget_remote_data_sou
 import 'package:flourish/features/budget/data/models/budget_model.dart';
 import 'package:flourish/features/budget/domain/repository/budget_repository.dart';
 import 'package:fpdart/src/either.dart';
+import 'package:supabase/src/supabase_stream_builder.dart';
 import 'package:uuid/uuid.dart';
 
 class BudgetRepositoryImpl implements BudgetRepository {
@@ -18,10 +19,6 @@ class BudgetRepositoryImpl implements BudgetRepository {
   Future<Either<Failure, List<Budget>>> fetchAllBudgets() async {
     try {
       final budgets = await budgetRemoteDataSource.fetchAllBudgets();
-
-      if (budgets != null) {
-        return left(Failure("Budgets could not load"));
-      }
 
       return right(budgets);
     } on CustomException catch (e) {
@@ -50,9 +47,23 @@ class BudgetRepositoryImpl implements BudgetRepository {
 
       newBudget = newBudget.copyWith(imageUrl: imageUrl);
 
-      return right(newBudget);
+      final result =
+          await budgetRemoteDataSource.createBudget(budget: newBudget);
+
+      return right(result);
     } on CustomException catch (e) {
       return left(Failure(e.customMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Stream<List<BudgetModel>>>> watchAllBudgets() async {
+    try {
+      final result = await budgetRemoteDataSource.watchAllBudgets();
+
+      return right(result);
+    } on CustomException catch (e) {
+      return left(Failure(e.toString()));
     }
   }
 }

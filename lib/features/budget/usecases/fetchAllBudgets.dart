@@ -15,5 +15,3 @@ class FetchAllBudgets implements UseCase<List<Budget>, NoParams> {
     return await budgetRepository.fetchAllBudgets();
   }
 }
-
-class NoParams {}

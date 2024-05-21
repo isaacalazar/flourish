@@ -44,7 +44,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const CustomException("User not found");
       }
 
-      return currentDataRequest!;
+      return currentDataRequest;
     } catch (e) {
       throw const CustomException("Client Auth not succeeded");
     }

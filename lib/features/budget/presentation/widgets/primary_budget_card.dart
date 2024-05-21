@@ -26,11 +26,11 @@ class PrimaryBudgetCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "You've spent",
+                "You've saved",
                 style: TextStyle(color: Colors.white),
               ),
               Text(
-                "Left in budget",
+                "Left to save",
                 style: TextStyle(color: Colors.white),
               ),
             ],
@@ -62,7 +62,7 @@ class PrimaryBudgetCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             color: const Color.fromRGBO(108, 35, 217, 1),
             minHeight: 10,
-            value: .5,
+            value: budgetAmount / currentBudget,
           ),
           const Gap(10),
           const Text(

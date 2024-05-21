@@ -10,12 +10,13 @@ class Budget {
   final String? posterName;
   final String imageUrl;
 
-  Budget(
-      {required this.budgetId,
-      required this.budgetName,
-      required this.budgetAmount,
-      required this.budgetMaxAmount,
-      required this.createdAt,
-      this.posterName,
-      required this.imageUrl});
+  Budget({
+    required this.budgetId,
+    required this.budgetName,
+    required this.budgetAmount,
+    required this.budgetMaxAmount,
+    required this.createdAt,
+    this.posterName,
+    required this.imageUrl,
+  });
 }

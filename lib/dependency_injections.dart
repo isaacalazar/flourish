@@ -10,7 +10,9 @@ import 'package:flourish/features/budget/data/datasources/budget_remote_data_sou
 import 'package:flourish/features/budget/data/repository/budget_repository.dart';
 import 'package:flourish/features/budget/domain/repository/budget_repository.dart';
 import 'package:flourish/features/budget/presentation/bloc/budget_bloc.dart';
+import 'package:flourish/features/budget/usecases/createBudget.dart';
 import 'package:flourish/features/budget/usecases/fetchAllBudgets.dart';
+import 'package:flourish/features/budget/usecases/watchBudgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -78,7 +80,17 @@ void _initBudget() {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory(
+    () => CreateBudget(
+      serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => WatchBudgets(
+      serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton(
-    () => BudgetBloc(serviceLocator()),
+    () => BudgetBloc(serviceLocator(), serviceLocator(), serviceLocator()),
   );
 }

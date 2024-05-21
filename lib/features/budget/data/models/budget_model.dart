@@ -38,21 +38,24 @@ class BudgetModel extends Budget {
       'budgetAmount': budgetAmount,
       'budgetMaxAmount': budgetMaxAmount,
       'createdAt': createdAt.toIso8601String(),
-      'posterName': posterName,
       'imageUrl': imageUrl,
     };
   }
 
   factory BudgetModel.fromJson(Map<String, dynamic> map) {
     return BudgetModel(
-      budgetId: map['budgetId'] as String,
-      budgetName: map['budgetName'] as String,
-      budgetAmount: map['budgetAmount'] as int,
-      budgetMaxAmount: map['budgetMaxAmount'] as int,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
-      posterName:
-          map['posterName'] != null ? map['posterName'] as String : null,
-      imageUrl: '',
+      budgetId: map['id'] ?? "",
+      budgetName: map['name'] ?? "",
+      budgetAmount: map['amount'] ?? 0,
+      budgetMaxAmount: map['max_amount'] ?? 0,
+      createdAt: DateTime.parse(map['updated_at']),
+      posterName: map['poster_id'] != null ? map['poster_id'] as String : null,
+      imageUrl: map['image_url'] ?? '',
     );
+  }
+
+  @override
+  String toString() {
+    return 'Budget(budgetId: $budgetId, budgetName: $budgetName, budgetAmount: $budgetAmount, budgetMaxAmount: $budgetMaxAmount, createdAt: $createdAt, posterName: $posterName, imageUrl: $imageUrl)';
   }
 }

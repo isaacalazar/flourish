@@ -1,7 +1,9 @@
+import 'package:flourish/core/entities/budget.dart';
 import 'package:flutter/material.dart';
 
 class BudgetCard extends StatelessWidget {
-  const BudgetCard({super.key});
+  final Budget budget;
+  const BudgetCard({super.key, required this.budget});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,7 @@ class BudgetCard extends StatelessWidget {
           children: [
             Image.network(
               "https://i0.wp.com/theluxurytravelexpert.com/wp-content/uploads/2014/07/santorini-greece-8-1.jpg?resize=678%2C382&ssl=1",
+              //  budget.imageUrl,
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200,
@@ -32,15 +35,15 @@ class BudgetCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Santorini, Greece",
-                    style: TextStyle(
+                    budget.budgetName,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -58,11 +61,11 @@ class BudgetCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 5, left: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5, left: 10),
                         child: Text(
-                          "75%",
-                          style: TextStyle(
+                          "${(budget.budgetMaxAmount / budget.budgetAmount).toDouble() * 100}%",
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -74,16 +77,16 @@ class BudgetCard extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: RichText(
-                            text: const TextSpan(
-                              text: "\$ 20",
-                              style: TextStyle(
+                            text: TextSpan(
+                              text: "\$ ${budget.budgetMaxAmount}",
+                              style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                               ),
                               children: [
                                 TextSpan(
-                                  text: "\n / 100",
-                                  style: TextStyle(
+                                  text: "\n / ${budget.budgetAmount}",
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
@@ -97,7 +100,8 @@ class BudgetCard extends StatelessWidget {
                     ],
                   ),
                   LinearProgressIndicator(
-                    value: .1,
+                    value: ((budget.budgetAmount / budget.budgetMaxAmount) /
+                        budget.budgetAmount),
                     color: const Color.fromRGBO(108, 35, 217, 1),
                     borderRadius: BorderRadius.circular(10),
                   )
