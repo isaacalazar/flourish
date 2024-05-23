@@ -6,11 +6,12 @@ class BudgetFieldText extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool? isInteger;
-  const BudgetFieldText(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      this.isInteger});
+  const BudgetFieldText({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    this.isInteger,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class BudgetFieldText extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
             color: Color.fromRGBO(108, 35, 217, 1),
-            width: 1.2,
+            width: 1.5,
           ),
         ),
         disabledBorder: OutlineInputBorder(
