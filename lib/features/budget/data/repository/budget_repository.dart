@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/core/entities/transaction.dart';
 import 'package:flourish/core/entities/user.dart';
 import 'package:flourish/core/errors/custom_exception.dart';
 import 'package:flourish/core/errors/failure.dart';
@@ -35,12 +36,13 @@ class BudgetRepositoryImpl implements BudgetRepository {
   }) async {
     try {
       BudgetModel newBudget = BudgetModel(
-          budgetId: Uuid().v1(),
-          budgetName: budgetName,
-          budgetAmount: budgetAmount,
-          budgetMaxAmount: budgetMaxAmount,
-          createdAt: DateTime.now(),
-          imageUrl: "");
+        budgetId: Uuid().v1(),
+        budgetName: budgetName,
+        budgetAmount: budgetAmount,
+        budgetMaxAmount: budgetMaxAmount,
+        createdAt: DateTime.now(),
+        imageUrl: "",
+      );
 
       final imageUrl = await budgetRemoteDataSource.uploadBudgetImage(
           image: image, budget: newBudget);
@@ -60,6 +62,29 @@ class BudgetRepositoryImpl implements BudgetRepository {
   Future<Either<Failure, Stream<List<BudgetModel>>>> watchAllBudgets() async {
     try {
       final result = await budgetRemoteDataSource.watchAllBudgets();
+
+      return right(result);
+    } on CustomException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Transaction>> createTransaction(
+      {required int amount,
+      required String type,
+      required String budgetId}) async {
+    try {
+      final transaction = Transaction(
+        id: Uuid().v1(),
+        budgetId: budgetId,
+        type: type,
+        amount: amount,
+        createdAt: DateTime.now(),
+      );
+
+      final result = await budgetRemoteDataSource.createTransaction(
+          transaction: transaction);
 
       return right(result);
     } on CustomException catch (e) {

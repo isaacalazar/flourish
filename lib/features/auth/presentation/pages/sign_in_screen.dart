@@ -109,7 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 },
                 builder: (context, state) {
                   if (state is AuthLoading) {
-                    return const CircularProgressIndicator();
+                    return Center(child: const CircularProgressIndicator());
                   }
                   return TextButton(
                     onPressed: () {

@@ -75,5 +75,7 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
         return BudgetDisplaySuccess(state);
       });
     });
+
+    on<TransactionUpload>((event, emit) {});
   }
 }

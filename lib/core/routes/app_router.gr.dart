@@ -15,6 +15,16 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    BudgetInfoRoute.name: (routeData) {
+      final args = routeData.argsAs<BudgetInfoRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BudgetInfoPage(
+          key: args.key,
+          budget: args.budget,
+        ),
+      );
+    },
     CreateBudgetRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -46,6 +56,44 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [BudgetInfoPage]
+class BudgetInfoRoute extends PageRouteInfo<BudgetInfoRouteArgs> {
+  BudgetInfoRoute({
+    Key? key,
+    required Budget budget,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BudgetInfoRoute.name,
+          args: BudgetInfoRouteArgs(
+            key: key,
+            budget: budget,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BudgetInfoRoute';
+
+  static const PageInfo<BudgetInfoRouteArgs> page =
+      PageInfo<BudgetInfoRouteArgs>(name);
+}
+
+class BudgetInfoRouteArgs {
+  const BudgetInfoRouteArgs({
+    this.key,
+    required this.budget,
+  });
+
+  final Key? key;
+
+  final Budget budget;
+
+  @override
+  String toString() {
+    return 'BudgetInfoRouteArgs{key: $key, budget: $budget}';
+  }
 }
 
 /// generated route for

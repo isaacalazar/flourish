@@ -1,4 +1,5 @@
 import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/core/entities/transaction.dart';
 
 class BudgetModel extends Budget {
   BudgetModel({
@@ -19,6 +20,7 @@ class BudgetModel extends Budget {
     DateTime? createdAt,
     String? posterName,
     String? imageUrl,
+    List<Transaction>? transactions,
   }) {
     return BudgetModel(
       budgetId: budgetId ?? this.budgetId,

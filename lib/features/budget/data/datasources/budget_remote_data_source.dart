@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/core/entities/transaction.dart';
 import 'package:flourish/core/entities/user.dart';
 import 'package:flourish/core/errors/custom_exception.dart';
 import 'package:flourish/features/budget/data/models/budget_model.dart' as bm;
 import 'package:flourish/features/budget/data/models/budget_model.dart';
+import 'package:flourish/features/budget/data/models/transaction_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flourish/core/entities/user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -12,6 +14,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract class BudgetRemoteDataSource {
   Future<List<BudgetModel>> fetchAllBudgets();
   Future<BudgetModel> createBudget({required BudgetModel budget});
+  Future<TransactionModel> createTransaction(
+      {required Transaction transaction});
+
   Future<String> uploadBudgetImage({
     required File image,
     required BudgetModel budget,
@@ -113,6 +118,29 @@ class BudgetRemoteDataSourceImpl implements BudgetRemoteDataSource {
         return result;
       }
       return const Stream.empty();
+    } catch (e) {
+      throw CustomException(e.toString());
+    }
+  }
+
+  @override
+  Future<TransactionModel> createTransaction(
+      {required Transaction transaction}) async {
+    try {
+      final transactionData = await client
+          .from('transactions')
+          .insert({
+            'id': transaction.id,
+            'created_at': transaction.createdAt.toIso8601String(),
+            'amount': transaction.amount,
+            'type': transaction.type,
+            'chained_budget_id': transaction.budgetId
+          })
+          .select()
+          .single();
+
+      print(transactionData);
+      return TransactionModel.fromJson(transactionData);
     } catch (e) {
       throw CustomException(e.toString());
     }

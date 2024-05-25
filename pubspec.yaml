@@ -51,6 +51,7 @@ dependencies:
   gap: ^3.0.1
   rxdart: ^0.27.7
   shimmer: ^3.0.0
+  material_design_icons_flutter: ^7.0.7296
 
 dev_dependencies:
   flutter_test:

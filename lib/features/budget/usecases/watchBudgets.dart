@@ -17,7 +17,7 @@ class WatchBudgets {
         (l) => budgetStream = Stream.empty(), (r) => budgetStream = r);
 
     print(await budgetStream.isEmpty);
-    print("RETURNING STREAM");
+
     return budgetStream;
   }
 }

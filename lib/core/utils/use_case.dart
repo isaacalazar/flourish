@@ -6,4 +6,5 @@ abstract interface class UseCase<SuccessType, Params> {
   Future<Either<Failure, SuccessType>> call(Params params);
 }
 
+//implement StreamCase
 class NoParams {}

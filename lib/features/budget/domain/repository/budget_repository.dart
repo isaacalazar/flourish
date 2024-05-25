@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/core/entities/transaction.dart';
 import 'package:flourish/core/entities/user.dart';
 import 'package:flourish/core/errors/failure.dart';
 import 'package:flourish/features/budget/data/models/budget_model.dart';
@@ -19,4 +20,10 @@ abstract class BudgetRepository {
   });
 
   Future<Either<Failure, Stream<List<Budget>>>> watchAllBudgets();
+
+  Future<Either<Failure, Transaction>> createTransaction({
+    required int amount,
+    required String type,
+    required String budgetId,
+  });
 }
