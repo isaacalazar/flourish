@@ -59,12 +59,14 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
             icon: Icon(Icons.send, size: 30),
             onPressed: () {
               if (formKey.currentState!.validate() && image != null) {
-                context.read<BudgetBloc>().add(BudgetUpload(
-                      budgetNameController.text.trim(),
-                      int.parse(budgetGoalController.text.trim()),
-                      int.parse(budgetAmountController.text.trim()),
-                      image!,
-                    ));
+                context.read<BudgetBloc>().add(
+                      BudgetUpload(
+                        budgetNameController.text.trim(),
+                        int.parse(budgetGoalController.text.trim()),
+                        int.parse(budgetAmountController.text.trim()),
+                        image!,
+                      ),
+                    );
               }
             },
           )
