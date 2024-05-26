@@ -113,18 +113,21 @@ class _HomePageState extends State<HomePage> {
 
               if ((state is BudgetDisplaySuccess) && state.budgets.isNotEmpty) {
                 final budgets = state.budgets;
+                print(budgets);
 
                 return Expanded(
-                  child: ListView.builder(
-                    itemBuilder: ((context, index) {
-                      final budget = budgets[index];
+                  child: SafeArea(
+                    child: ListView.builder(
+                      itemBuilder: ((context, index) {
+                        final budget = budgets[index];
 
-                      return BudgetCard(
-                        budget: budget,
-                      );
-                    }),
-                    padding: EdgeInsets.zero,
-                    itemCount: budgets.length,
+                        return BudgetCard(
+                          budget: budget,
+                        );
+                      }),
+                      padding: EdgeInsets.zero,
+                      itemCount: budgets.length,
+                    ),
                   ),
                 );
               }

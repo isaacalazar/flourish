@@ -81,11 +81,12 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
     on<BudgetUpdate>((event, emit) async {
       final result =
           await _updateBudget(UpdateBudgetParams(event.budgetId, event.amount));
-
+      final fetchResult = await _fetchAllBudgets(NoParams());
       result.fold((l) {
         return emit(BudgetFailure());
       }, (newBudget) async {
-        return emit(BudgetDisplaySuccess([newBudget]));
+        fetchResult.fold(
+            (l) => emit(BudgetFailure()), (r) => emit(BudgetDisplaySuccess(r)));
       });
     });
   }

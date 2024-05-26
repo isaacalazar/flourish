@@ -23,8 +23,8 @@ class BudgetCard extends StatelessWidget {
           child: Stack(
             children: [
               Image.network(
-                "https://i0.wp.com/theluxurytravelexpert.com/wp-content/uploads/2014/07/santorini-greece-8-1.jpg?resize=678%2C382&ssl=1",
-                //  budget.imageUrl,
+                // "https://i0.wp.com/theluxurytravelexpert.com/wp-content/uploads/2014/07/santorini-greece-8-1.jpg?resize=678%2C382&ssl=1",
+                budget.imageUrl,
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: 200,
@@ -72,7 +72,7 @@ class BudgetCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5, left: 10),
                           child: Text(
-                            "${(budget.budgetAmount / budget.budgetMaxAmount).toDouble() * 100}%",
+                            "${((budget.budgetAmount / budget.budgetMaxAmount).toDouble() * 100).toStringAsFixed(2)}%",
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -108,8 +108,7 @@ class BudgetCard extends StatelessWidget {
                       ],
                     ),
                     LinearProgressIndicator(
-                      value: ((budget.budgetAmount / budget.budgetMaxAmount) /
-                          budget.budgetAmount),
+                      value: (budget.budgetAmount / budget.budgetMaxAmount),
                       color: const Color.fromRGBO(108, 35, 217, 1),
                       borderRadius: BorderRadius.circular(10),
                     )
