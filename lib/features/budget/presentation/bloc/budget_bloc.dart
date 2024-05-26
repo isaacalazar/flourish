@@ -43,13 +43,11 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
 
       result.fold(
         (l) {
-          print(l.message);
           emit(
             BudgetFailure(),
           );
         },
         (r) {
-          print(r);
           emit(BudgetDisplaySuccess(r));
         },
       );
@@ -66,13 +64,8 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
       );
 
       result.fold((l) {
-        print("FAILED 2");
-        print(l);
-        print("COULDNT UPLOAD BUDGET CORRECTLY");
         emit(BudgetFailure());
       }, (r) {
-        print(r.toString());
-        print("SUCCEEDED");
         emit(BudgetSuccess());
       });
     });
@@ -90,8 +83,6 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
           await _updateBudget(UpdateBudgetParams(event.budgetId, event.amount));
 
       result.fold((l) {
-        print(l.message);
-        print("FAILED IN UPDATING");
         return emit(BudgetFailure());
       }, (newBudget) async {
         return emit(BudgetDisplaySuccess([newBudget]));

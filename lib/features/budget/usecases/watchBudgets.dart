@@ -16,8 +16,6 @@ class WatchBudgets {
     streamResult.fold(
         (l) => budgetStream = Stream.empty(), (r) => budgetStream = r);
 
-    print(await budgetStream.isEmpty);
-
     return budgetStream;
   }
 }

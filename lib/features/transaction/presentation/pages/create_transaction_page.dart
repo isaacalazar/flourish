@@ -115,9 +115,6 @@ class _CreateTransactionPageState extends State<CreateTransactionPage> {
                     int.parse(amountController.text.trim());
                 final bool isDeposit = currentSelection == 0 ? true : false;
 
-                print(selectedAmount + widget.budget.budgetAmount);
-                print(widget.budget.budgetAmount - selectedAmount);
-                print(isDeposit);
                 if (isDeposit &&
                     selectedAmount + widget.budget.budgetAmount <
                         widget.budget.budgetMaxAmount) {

@@ -16,8 +16,6 @@ class PrimaryBudgetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(budgetAmount);
-    print(currentBudget);
     return Container(
       height: 150,
       width: double.infinity,
