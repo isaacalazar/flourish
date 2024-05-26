@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // context.read<BudgetBloc>().add(BudgetFetchAllBudgets());
     context.read<BudgetBloc>().add(BudgetWatch());
-    context.read<TransactionBloc>().add(TransactionFetch(budgetId: "Default"));
+    //context.read<TransactionBloc>().add(TransactionFetch(budgetId: "Default"));
 
     super.initState();
   }
@@ -61,11 +61,30 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           const Gap(10),
-          BlocBuilder<TransactionBloc, TransactionState>(
+          BlocConsumer<BudgetBloc, BudgetState>(
+            listener: (context, state) {
+              // TODO: implement listener
+            },
             builder: (context, state) {
+              print(state);
+              if (state is BudgetDisplaySuccess && state.budgets.isNotEmpty) {
+                final budgets = state.budgets;
+                int startingAmount = userData.allocatedBudget;
+                int collectiveAmount = userData.globalBalance;
+
+                for (Budget budget in budgets) {
+                  startingAmount = startingAmount + budget.budgetAmount;
+                  collectiveAmount = collectiveAmount + budget.budgetMaxAmount;
+                }
+
+                return PrimaryBudgetCard(
+                  currentBudget: startingAmount,
+                  budgetAmount: collectiveAmount - 100,
+                );
+              }
               return PrimaryBudgetCard(
-                currentBudget: userData.globalBalance,
-                budgetAmount: userData.allocatedBudget,
+                currentBudget: userData.allocatedBudget,
+                budgetAmount: userData.globalBalance,
               );
             },
           ),
@@ -87,6 +106,7 @@ class _HomePageState extends State<HomePage> {
           BlocConsumer<BudgetBloc, BudgetState>(
             listener: (context, state) {},
             builder: (context, state) {
+              print(state);
               if (state is BudgetLoading) {
                 return const Center(child: CircularProgressIndicator());
               }

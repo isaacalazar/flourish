@@ -8,8 +8,16 @@ class PrimaryBudgetCard extends StatelessWidget {
   const PrimaryBudgetCard(
       {super.key, required this.budgetAmount, required this.currentBudget});
 
+  int daysUntilEndOfMonth() {
+    DateTime now = DateTime.now();
+    DateTime endOfMonth = DateTime(now.year, now.month + 1, 0);
+    return endOfMonth.difference(now).inDays;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(budgetAmount);
+    print(currentBudget);
     return Container(
       height: 150,
       width: double.infinity,
@@ -40,7 +48,7 @@ class PrimaryBudgetCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "\$$budgetAmount",
+                "\$$currentBudget",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -48,7 +56,7 @@ class PrimaryBudgetCard extends StatelessWidget {
                 ),
               ),
               Text(
-                "\$$currentBudget",
+                "\$$budgetAmount",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -62,11 +70,11 @@ class PrimaryBudgetCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             color: const Color.fromRGBO(108, 35, 217, 1),
             minHeight: 10,
-            value: budgetAmount / currentBudget,
+            value: currentBudget / budgetAmount,
           ),
           const Gap(10),
-          const Text(
-            "8 days left this month.",
+          Text(
+            "${daysUntilEndOfMonth()} days left this month.",
             style: TextStyle(fontSize: 12, color: Colors.white),
           ),
         ],

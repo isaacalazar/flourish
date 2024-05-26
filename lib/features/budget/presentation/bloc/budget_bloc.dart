@@ -5,6 +5,7 @@ import 'package:flourish/core/entities/budget.dart';
 import 'package:flourish/core/entities/transaction.dart';
 import 'package:flourish/core/utils/use_case.dart';
 import 'package:flourish/features/budget/usecases/createBudget.dart';
+import 'package:flourish/features/budget/usecases/updateBudget.dart';
 import 'package:flourish/features/transaction/usecases/createTransaction.dart';
 
 import 'package:flourish/features/budget/usecases/fetchAllBudgets.dart';
@@ -20,11 +21,17 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
   final CreateBudget _createBudget;
   final WatchBudgets _watchBudgets;
   final CreateTransaction _createTransaction;
-  BudgetBloc(FetchAllBudgets fetchAllBudgets, CreateBudget createBudget,
-      WatchBudgets watchBudgets, CreateTransaction createTransaction)
+  final UpdateBudget _updateBudget;
+  BudgetBloc(
+      FetchAllBudgets fetchAllBudgets,
+      CreateBudget createBudget,
+      WatchBudgets watchBudgets,
+      CreateTransaction createTransaction,
+      UpdateBudget updateBudget)
       : _fetchAllBudgets = fetchAllBudgets,
         _createBudget = createBudget,
         _watchBudgets = watchBudgets,
+        _updateBudget = updateBudget,
         _createTransaction = createTransaction,
         super(BudgetInitial()) {
     on<BudgetEvent>((event, emit) {
@@ -59,8 +66,9 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
       );
 
       result.fold((l) {
-        print("FAILED");
-        print(l.message);
+        print("FAILED 2");
+        print(l);
+        print("COULDNT UPLOAD BUDGET CORRECTLY");
         emit(BudgetFailure());
       }, (r) {
         print(r.toString());
@@ -73,22 +81,21 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
       final stream = await _watchBudgets(NoParams());
 
       await emit.forEach(stream, onData: (state) {
-        print(state);
-        print("GOT NEW STREAM ITEM");
         return BudgetDisplaySuccess(state);
       });
     });
 
-    on<TransactionUpload>((event, emit) async {
-      final result = await _createTransaction(CreateTransactionParams(
-          amount: event.amount, type: event.type, budgetId: event.budgetId));
+    on<BudgetUpdate>((event, emit) async {
+      final result =
+          await _updateBudget(UpdateBudgetParams(event.budgetId, event.amount));
 
-      result.fold(
-        (l) => emit(BudgetFailure()),
-        (r) => emit(
-          TransactionDisplaySuccess([r]),
-        ),
-      );
+      result.fold((l) {
+        print(l.message);
+        print("FAILED IN UPDATING");
+        return emit(BudgetFailure());
+      }, (newBudget) async {
+        return emit(BudgetDisplaySuccess([newBudget]));
+      });
     });
   }
 }

@@ -11,6 +11,7 @@ import 'package:flourish/features/budget/data/repository/budget_repository.dart'
 import 'package:flourish/features/budget/domain/repository/budget_repository.dart';
 import 'package:flourish/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:flourish/features/budget/usecases/createBudget.dart';
+import 'package:flourish/features/budget/usecases/updateBudget.dart';
 import 'package:flourish/features/transaction/data/datasources/transaction_remote_data_source.dart';
 import 'package:flourish/features/transaction/data/repository/transaction_repository.dart';
 import 'package:flourish/features/transaction/domain/transaction_repository.dart';
@@ -97,10 +98,15 @@ void _initBudget() {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory(
+    () => UpdateBudget(
+      serviceLocator(),
+    ),
+  );
 
   serviceLocator.registerLazySingleton(
-    () => BudgetBloc(
-        serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()),
+    () => BudgetBloc(serviceLocator(), serviceLocator(), serviceLocator(),
+        serviceLocator(), serviceLocator()),
   );
 }
 

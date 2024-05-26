@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/features/budget/presentation/bloc/budget_bloc.dart';
+
 import 'package:flourish/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -109,11 +111,34 @@ class _CreateTransactionPageState extends State<CreateTransactionPage> {
                 ),
               ),
               onPressed: () {
-                context.read<TransactionBloc>().add(TransactionUpload(
+                final int selectedAmount =
+                    int.parse(amountController.text.trim());
+                final bool isDeposit = currentSelection == 0 ? true : false;
+
+                print(selectedAmount + widget.budget.budgetAmount);
+                print(widget.budget.budgetAmount - selectedAmount);
+                print(isDeposit);
+                if (isDeposit &&
+                    selectedAmount + widget.budget.budgetAmount <
+                        widget.budget.budgetMaxAmount) {
+                  context.read<TransactionBloc>().add(TransactionUpload(
                       budgetId: widget.budget.budgetId,
-                      amount: int.parse(amountController.text.trim()),
-                      type: currentSelection == 0 ? "Deposit" : "Withdrawl",
-                    ));
+                      amount: selectedAmount,
+                      type: "Deposit"));
+                  context.read<BudgetBloc>().add(BudgetUpdate(
+                      widget.budget.budgetId,
+                      widget.budget.budgetAmount + selectedAmount));
+                } else if (isDeposit == false &&
+                    widget.budget.budgetAmount - selectedAmount > 0) {
+                  context.read<TransactionBloc>().add(TransactionUpload(
+                      budgetId: widget.budget.budgetId,
+                      amount: selectedAmount,
+                      type: "Withdrawl"));
+
+                  context.read<BudgetBloc>().add(BudgetUpdate(
+                      widget.budget.budgetId,
+                      widget.budget.budgetAmount - selectedAmount));
+                }
               },
             )
           ],

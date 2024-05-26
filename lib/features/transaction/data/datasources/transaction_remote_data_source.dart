@@ -46,7 +46,7 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
             .from('transactions')
             .select('*')
             .eq('chained_budget_id', budgetId)
-            .order('created_at', ascending: true);
+            .order('created_at', ascending: false);
 
         return budgets
             .map((budget) => TransactionModel.fromJson(budget))

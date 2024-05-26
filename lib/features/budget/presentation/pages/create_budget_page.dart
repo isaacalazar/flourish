@@ -62,8 +62,8 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                 context.read<BudgetBloc>().add(
                       BudgetUpload(
                         budgetNameController.text.trim(),
-                        int.parse(budgetGoalController.text.trim()),
                         int.parse(budgetAmountController.text.trim()),
+                        int.parse(budgetGoalController.text.trim()),
                         image!,
                       ),
                     );

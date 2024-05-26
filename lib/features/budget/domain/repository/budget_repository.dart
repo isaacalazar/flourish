@@ -26,4 +26,7 @@ abstract class BudgetRepository {
     required String type,
     required String budgetId,
   });
+
+  Future<Either<Failure, Budget>> updateBudget(
+      {required String budgetId, required int newAmount});
 }

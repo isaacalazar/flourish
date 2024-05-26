@@ -4,11 +4,9 @@ import 'package:flourish/core/entities/budget.dart';
 import 'package:flourish/core/entities/transaction.dart';
 import 'package:flourish/core/entities/user.dart';
 import 'package:flourish/core/errors/custom_exception.dart';
-import 'package:flourish/features/budget/data/models/budget_model.dart' as bm;
 import 'package:flourish/features/budget/data/models/budget_model.dart';
+
 import 'package:flourish/features/transaction/data/models/transaction_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flourish/core/entities/user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class BudgetRemoteDataSource {
@@ -25,6 +23,8 @@ abstract class BudgetRemoteDataSource {
   Session? get currentUserSession;
 
   Future<Stream<List<BudgetModel>>> watchAllBudgets();
+  Future<BudgetModel> updateBudget(
+      {required String budgetId, required int amount});
 }
 
 class BudgetRemoteDataSourceImpl implements BudgetRemoteDataSource {
@@ -141,6 +141,23 @@ class BudgetRemoteDataSourceImpl implements BudgetRemoteDataSource {
 
       print(transactionData);
       return TransactionModel.fromJson(transactionData);
+    } catch (e) {
+      throw CustomException(e.toString());
+    }
+  }
+
+  @override
+  Future<BudgetModel> updateBudget(
+      {required String budgetId, required int amount}) async {
+    try {
+      final budgetData = await client
+          .from('budgets')
+          .update({'amount': amount})
+          .eq('id', budgetId)
+          .select()
+          .single();
+
+      return BudgetModel.fromJson(budgetData);
     } catch (e) {
       throw CustomException(e.toString());
     }

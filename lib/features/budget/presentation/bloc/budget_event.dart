@@ -17,12 +17,11 @@ final class BudgetUpload extends BudgetEvent {
       this.budgetName, this.budgetAmount, this.budgetMaxAmount, this.image);
 }
 
-final class TransactionUpload extends BudgetEvent {
+final class BudgetUpdate extends BudgetEvent {
   final String budgetId;
   final int amount;
-  final String type;
 
-  TransactionUpload(this.budgetId, this.amount, this.type);
+  BudgetUpdate(this.budgetId, this.amount);
 }
 
 final class BudgetWatch extends BudgetEvent {}

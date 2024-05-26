@@ -26,7 +26,11 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
       fetchResult.fold((l) => emit(TransactionFailure()), (budgets) {
         result.fold((l) => emit(TransactionFailure()), (r) {
-          emit(TransactionFetchSuccess([r, ...budgets]));
+          print("SUCCESS RETRIEVED ALL TRANSACTIONS");
+          print([...budgets]);
+          print(r);
+
+          emit(TransactionFetchSuccess([...budgets]));
         });
       });
     });

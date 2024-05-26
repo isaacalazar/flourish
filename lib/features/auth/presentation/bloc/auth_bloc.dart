@@ -46,7 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final userDataResult = await _getUserData(NoParams());
 
       signInResult.fold((l) {
-        print("FAILED");
+        print("FAILED AUTH");
         emit(AuthFailure(l.message));
       }, (r) async {
         userDataResult.fold((l) => null, (r) {

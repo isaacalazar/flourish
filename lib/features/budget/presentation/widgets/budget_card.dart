@@ -72,7 +72,7 @@ class BudgetCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5, left: 10),
                           child: Text(
-                            "${(budget.budgetMaxAmount / budget.budgetAmount).toDouble() * 100}%",
+                            "${(budget.budgetAmount / budget.budgetMaxAmount).toDouble() * 100}%",
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -86,14 +86,14 @@ class BudgetCard extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: RichText(
                               text: TextSpan(
-                                text: "\$ ${budget.budgetMaxAmount}",
+                                text: "\$ ${budget.budgetAmount}",
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400,
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: "\n / ${budget.budgetAmount}",
+                                    text: "\n / ${budget.budgetMaxAmount}",
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,

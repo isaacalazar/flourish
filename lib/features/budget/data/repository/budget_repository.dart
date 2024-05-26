@@ -91,4 +91,15 @@ class BudgetRepositoryImpl implements BudgetRepository {
       return left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Budget>> updateBudget(
+      {required String budgetId, required int newAmount}) async {
+    try {
+      return right(await budgetRemoteDataSource.updateBudget(
+          budgetId: budgetId, amount: newAmount));
+    } on CustomException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }
