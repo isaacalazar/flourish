@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flourish/core/cubit/app_user_cubit.dart';
 import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/core/entities/transaction.dart';
 import 'package:flourish/core/routes/app_router.dart';
 import 'package:flourish/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flourish/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:flourish/features/budget/presentation/widgets/budget_card.dart';
 import 'package:flourish/features/budget/presentation/widgets/primary_budget_card.dart';
+import 'package:flourish/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -26,6 +28,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // context.read<BudgetBloc>().add(BudgetFetchAllBudgets());
     context.read<BudgetBloc>().add(BudgetWatch());
+    context.read<TransactionBloc>().add(TransactionFetch(budgetId: "Default"));
+
     super.initState();
   }
 
@@ -57,9 +61,13 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           const Gap(10),
-          PrimaryBudgetCard(
-            currentBudget: userData.globalBalance,
-            budgetAmount: userData.allocatedBudget,
+          BlocBuilder<TransactionBloc, TransactionState>(
+            builder: (context, state) {
+              return PrimaryBudgetCard(
+                currentBudget: userData.globalBalance,
+                budgetAmount: userData.allocatedBudget,
+              );
+            },
           ),
           const Gap(20),
           const Padding(

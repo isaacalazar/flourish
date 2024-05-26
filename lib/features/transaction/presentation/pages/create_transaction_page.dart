@@ -1,12 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dotted_line/dotted_line.dart';
+import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 @RoutePage()
 class CreateTransactionPage extends StatefulWidget {
-  const CreateTransactionPage({super.key});
+  final Budget budget;
+  const CreateTransactionPage({super.key, required this.budget});
 
   @override
   State<CreateTransactionPage> createState() => _CreateTransactionPageState();
@@ -64,7 +68,18 @@ class _CreateTransactionPageState extends State<CreateTransactionPage> {
               controller: amountController,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(border: InputBorder.none),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                prefix: Text(
+                  "\$",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: currentSelection == 0
+                        ? Colors.greenAccent
+                        : Colors.redAccent,
+                  ),
+                ),
+              ),
               style: TextStyle(
                 fontSize: 65,
                 color: currentSelection == 0
@@ -93,7 +108,13 @@ class _CreateTransactionPageState extends State<CreateTransactionPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.read<TransactionBloc>().add(TransactionUpload(
+                      budgetId: widget.budget.budgetId,
+                      amount: int.parse(amountController.text.trim()),
+                      type: currentSelection == 0 ? "Deposit" : "Withdrawl",
+                    ));
+              },
             )
           ],
         ),

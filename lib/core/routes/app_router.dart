@@ -5,10 +5,10 @@ import 'package:flourish/features/auth/presentation/pages/sign_in_screen.dart';
 import 'package:flourish/features/auth/presentation/pages/sign_up_screen.dart';
 import 'package:flourish/features/budget/presentation/pages/budget_info_page.dart';
 import 'package:flourish/features/budget/presentation/pages/create_budget_page.dart';
-import 'package:flourish/features/budget/presentation/pages/create_transaction_page.dart';
+import 'package:flourish/features/transaction/presentation/pages/create_transaction_page.dart';
 
 import 'package:flourish/features/budget/presentation/pages/home_page.dart';
-import 'package:flourish/features/budget/usecases/createTransaction.dart';
+import 'package:flourish/features/transaction/usecases/createTransaction.dart';
 import 'package:flutter/material.dart';
 
 part 'app_router.gr.dart';

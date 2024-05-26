@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/core/entities/transaction.dart';
 import 'package:flourish/core/utils/use_case.dart';
 import 'package:flourish/features/budget/usecases/createBudget.dart';
+import 'package:flourish/features/transaction/usecases/createTransaction.dart';
 
 import 'package:flourish/features/budget/usecases/fetchAllBudgets.dart';
 import 'package:flourish/features/budget/usecases/watchBudgets.dart';
@@ -17,12 +19,13 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
   final FetchAllBudgets _fetchAllBudgets;
   final CreateBudget _createBudget;
   final WatchBudgets _watchBudgets;
-
+  final CreateTransaction _createTransaction;
   BudgetBloc(FetchAllBudgets fetchAllBudgets, CreateBudget createBudget,
-      WatchBudgets watchBudgets)
+      WatchBudgets watchBudgets, CreateTransaction createTransaction)
       : _fetchAllBudgets = fetchAllBudgets,
         _createBudget = createBudget,
         _watchBudgets = watchBudgets,
+        _createTransaction = createTransaction,
         super(BudgetInitial()) {
     on<BudgetEvent>((event, emit) {
       emit(BudgetLoading());
@@ -76,6 +79,16 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
       });
     });
 
-    on<TransactionUpload>((event, emit) {});
+    on<TransactionUpload>((event, emit) async {
+      final result = await _createTransaction(CreateTransactionParams(
+          amount: event.amount, type: event.type, budgetId: event.budgetId));
+
+      result.fold(
+        (l) => emit(BudgetFailure()),
+        (r) => emit(
+          TransactionDisplaySuccess([r]),
+        ),
+      );
+    });
   }
 }

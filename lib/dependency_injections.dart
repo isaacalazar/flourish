@@ -11,8 +11,14 @@ import 'package:flourish/features/budget/data/repository/budget_repository.dart'
 import 'package:flourish/features/budget/domain/repository/budget_repository.dart';
 import 'package:flourish/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:flourish/features/budget/usecases/createBudget.dart';
+import 'package:flourish/features/transaction/data/datasources/transaction_remote_data_source.dart';
+import 'package:flourish/features/transaction/data/repository/transaction_repository.dart';
+import 'package:flourish/features/transaction/domain/transaction_repository.dart';
+import 'package:flourish/features/transaction/presentation/bloc/transaction_bloc.dart';
+import 'package:flourish/features/transaction/usecases/createTransaction.dart';
 import 'package:flourish/features/budget/usecases/fetchAllBudgets.dart';
 import 'package:flourish/features/budget/usecases/watchBudgets.dart';
+import 'package:flourish/features/transaction/usecases/fetchTransaction.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,6 +28,7 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   _initAuth();
   _initBudget();
+  _initTransactions();
 
   final supabase = await Supabase.initialize(
       url: "https://xbpvzrqhafvgjrxskjmy.supabase.co",
@@ -90,7 +97,20 @@ void _initBudget() {
       serviceLocator(),
     ),
   );
+
   serviceLocator.registerLazySingleton(
-    () => BudgetBloc(serviceLocator(), serviceLocator(), serviceLocator()),
+    () => BudgetBloc(
+        serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()),
   );
+}
+
+void _initTransactions() {
+  serviceLocator.registerFactory<TransactionRemoteDataSource>(
+      () => TransactionRemoteDataSourceImpl(serviceLocator()));
+  serviceLocator.registerFactory<TransactionRepository>(
+      () => TransactionRepositoryImpl(serviceLocator()));
+  serviceLocator.registerFactory(() => FetchTransaction(serviceLocator()));
+  serviceLocator.registerFactory(() => CreateTransaction(serviceLocator()));
+  serviceLocator.registerLazySingleton(
+      () => TransactionBloc(serviceLocator(), serviceLocator()));
 }

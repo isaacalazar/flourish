@@ -32,9 +32,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     CreateTransactionRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateTransactionRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const CreateTransactionPage(),
+        child: CreateTransactionPage(
+          key: args.key,
+          budget: args.budget,
+        ),
       );
     },
     HomeRoute.name: (routeData) {
@@ -118,16 +122,40 @@ class CreateBudgetRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [CreateTransactionPage]
-class CreateTransactionRoute extends PageRouteInfo<void> {
-  const CreateTransactionRoute({List<PageRouteInfo>? children})
-      : super(
+class CreateTransactionRoute extends PageRouteInfo<CreateTransactionRouteArgs> {
+  CreateTransactionRoute({
+    Key? key,
+    required Budget budget,
+    List<PageRouteInfo>? children,
+  }) : super(
           CreateTransactionRoute.name,
+          args: CreateTransactionRouteArgs(
+            key: key,
+            budget: budget,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'CreateTransactionRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<CreateTransactionRouteArgs> page =
+      PageInfo<CreateTransactionRouteArgs>(name);
+}
+
+class CreateTransactionRouteArgs {
+  const CreateTransactionRouteArgs({
+    this.key,
+    required this.budget,
+  });
+
+  final Key? key;
+
+  final Budget budget;
+
+  @override
+  String toString() {
+    return 'CreateTransactionRouteArgs{key: $key, budget: $budget}';
+  }
 }
 
 /// generated route for

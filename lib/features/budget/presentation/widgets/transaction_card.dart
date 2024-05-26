@@ -1,6 +1,7 @@
 import 'package:flourish/core/entities/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
 class TransactionCard extends StatelessWidget {
   final Transaction transaction;
@@ -16,13 +17,18 @@ class TransactionCard extends StatelessWidget {
         color: Colors.white,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Gap(10),
           CircleAvatar(
             backgroundColor: Color.fromRGBO(240, 240, 240, .35),
             child: Icon(
-              Icons.trending_down,
-              color: Color.fromRGBO(240, 0, 0, .8),
+              transaction.type == "Withdrawl"
+                  ? Icons.trending_down
+                  : Icons.trending_up,
+              color: transaction.type == "Withdrawl"
+                  ? Color.fromRGBO(240, 0, 0, .8)
+                  : Color.fromRGBO(75, 247, 1, 1),
             ),
           ),
           const Gap(10),
@@ -30,10 +36,12 @@ class TransactionCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Withdrawl"),
+              Text(transaction.type == "Withdrawl" ? "Withdrawl" : "Deposit"),
               const Gap(3),
               Text(
-                "May 24, 2024",
+                DateFormat('hh:mm a, MMM dd, yyyy')
+                    .format(transaction.createdAt)
+                    .toString(),
                 style: TextStyle(
                   fontWeight: FontWeight.w300,
                   color: Color.fromRGBO(0, 0, 0, .5),
@@ -50,14 +58,20 @@ class TransactionCard extends StatelessWidget {
                   minWidth: 60,
                 ),
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(237, 54, 34, .3),
+                  color: transaction.type == "Withdrawl"
+                      ? Color.fromRGBO(237, 54, 34, .3)
+                      : Color.fromRGBO(52, 237, 34, .2),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Center(
                   child: Text(
-                    "-\$100",
+                    transaction.type == "Withdrawl"
+                        ? "-${transaction.amount.toStringAsFixed(2)}"
+                        : "+${transaction.amount.toStringAsFixed(2)}",
                     style: TextStyle(
-                      color: Color.fromRGBO(240, 0, 0, 1),
+                      color: transaction.type == "Withdrawl"
+                          ? Color.fromRGBO(240, 0, 0, 1)
+                          : Color.fromRGBO(0, 240, 0, 1),
                       overflow: TextOverflow.visible,
                     ),
                   ),

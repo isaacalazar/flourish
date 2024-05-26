@@ -15,4 +15,9 @@ final class BudgetDisplaySuccess extends BudgetState {
   BudgetDisplaySuccess(this.budgets);
 }
 
+final class TransactionDisplaySuccess extends BudgetState {
+  final List<Transaction> transactions;
+  TransactionDisplaySuccess(this.transactions);
+}
+
 final class BudgetFailure extends BudgetState {}

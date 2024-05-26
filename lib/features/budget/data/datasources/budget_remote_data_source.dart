@@ -6,7 +6,7 @@ import 'package:flourish/core/entities/user.dart';
 import 'package:flourish/core/errors/custom_exception.dart';
 import 'package:flourish/features/budget/data/models/budget_model.dart' as bm;
 import 'package:flourish/features/budget/data/models/budget_model.dart';
-import 'package:flourish/features/budget/data/models/transaction_model.dart';
+import 'package:flourish/features/transaction/data/models/transaction_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flourish/core/entities/user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

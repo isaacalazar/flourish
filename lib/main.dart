@@ -5,6 +5,7 @@ import 'package:flourish/core/routes/app_router.dart';
 import 'package:flourish/dependency_injections.dart';
 import 'package:flourish/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flourish/features/budget/presentation/bloc/budget_bloc.dart';
+import 'package:flourish/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,8 @@ void main() async {
     providers: [
       BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
       BlocProvider(create: (_) => serviceLocator<BudgetBloc>()),
-      BlocProvider(create: (_) => serviceLocator<AppUserCubit>())
+      BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
+      BlocProvider(create: (_) => serviceLocator<TransactionBloc>()),
     ],
     child: MyApp(),
   ));
