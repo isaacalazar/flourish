@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flourish/core/entities/budget.dart';
+import 'package:flourish/core/guards/auth_guard.dart';
 import 'package:flourish/features/auth/presentation/pages/login_screen.dart';
 import 'package:flourish/features/auth/presentation/pages/sign_in_screen.dart';
 import 'package:flourish/features/auth/presentation/pages/sign_up_screen.dart';
@@ -21,9 +22,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: HomeRoute.page,
         ),
-        AutoRoute(
-          page: SignInRoute.page,
-        ),
+        AutoRoute(page: SignInRoute.page, guards: [AuthGuard()]),
         AutoRoute(
           page: SignUpRoute.page,
         ),

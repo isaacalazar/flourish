@@ -3,6 +3,7 @@ import 'package:flourish/core/cubit/app_user_cubit.dart';
 import 'package:flourish/core/utils/use_case.dart';
 import 'package:flourish/features/auth/usecases/user_get_data.dart';
 import 'package:flourish/features/auth/usecases/user_sign_in.dart';
+import 'package:flourish/features/auth/usecases/user_sign_out.dart';
 import 'package:flourish/features/auth/usecases/user_sign_up.dart';
 import 'package:meta/meta.dart';
 
@@ -14,16 +15,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignIn _userSignIn;
   final AppUserCubit _appUserCubit;
   final UserGetData _getUserData;
-
+  final UserSignOut _userSignOut;
   AuthBloc(
       {required UserSignUp userSignUp,
       required AppUserCubit appUserCubit,
       required UserSignIn userSignIn,
-      required UserGetData getUserData})
+      required UserGetData getUserData,
+      required UserSignOut userSignOut})
       : _userSignUp = userSignUp,
         _appUserCubit = appUserCubit,
         _userSignIn = userSignIn,
         _getUserData = getUserData,
+        _userSignOut = userSignOut,
         super(AuthInitial()) {
     on<AuthEvent>((event, emit) => emit(AuthLoading()));
 
@@ -54,6 +57,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           _appUserCubit.updateUser(r);
           return emit(AuthSuccess());
         });
+      });
+    });
+
+    on<AuthGetUserData>((event, emit) async {
+      final userDataResult = await _getUserData(NoParams());
+
+      userDataResult.fold((l) => emit(AuthFailure(l.message)), (r) {
+        _appUserCubit.updateUser(r);
+        return emit(AuthSuccess());
+      });
+    });
+
+    on<AuthUserSignOut>((event, emit) async {
+      final userSignOutResult = await _userSignOut(NoParams());
+
+      userSignOutResult.fold((l) => emit(AuthFailure(l.message)), (r) {
+        _appUserCubit.updateUser(null);
+        return emit(AuthSuccess());
       });
     });
   }

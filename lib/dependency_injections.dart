@@ -5,6 +5,7 @@ import 'package:flourish/features/auth/domain/repository/auth_repository.dart';
 import 'package:flourish/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flourish/features/auth/usecases/user_get_data.dart';
 import 'package:flourish/features/auth/usecases/user_sign_in.dart';
+import 'package:flourish/features/auth/usecases/user_sign_out.dart';
 import 'package:flourish/features/auth/usecases/user_sign_up.dart';
 import 'package:flourish/features/budget/data/datasources/budget_remote_data_source.dart';
 import 'package:flourish/features/budget/data/repository/budget_repository.dart';
@@ -62,13 +63,16 @@ void _initAuth() {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory(() => UserSignOut(serviceLocator()));
   serviceLocator.registerFactory(() => UserSignIn(serviceLocator()));
   serviceLocator.registerLazySingleton(
     () => AuthBloc(
-        userSignIn: serviceLocator(),
-        userSignUp: serviceLocator(),
-        appUserCubit: serviceLocator(),
-        getUserData: serviceLocator()),
+      userSignIn: serviceLocator(),
+      userSignUp: serviceLocator(),
+      appUserCubit: serviceLocator(),
+      getUserData: serviceLocator(),
+      userSignOut: serviceLocator(),
+    ),
   );
 }
 

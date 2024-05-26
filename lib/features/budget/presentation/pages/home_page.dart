@@ -41,11 +41,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.menu),
-          iconSize: 28,
-        ),
+        leading: Builder(builder: (context) {
+          return IconButton(
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            icon: const Icon(Icons.menu),
+            iconSize: 28,
+          );
+        }),
         title: Align(
           alignment: Alignment.topLeft,
           child: Text(
@@ -113,7 +117,6 @@ class _HomePageState extends State<HomePage> {
 
               if ((state is BudgetDisplaySuccess) && state.budgets.isNotEmpty) {
                 final budgets = state.budgets;
-                print(budgets);
 
                 return Expanded(
                   child: SafeArea(
@@ -146,6 +149,43 @@ class _HomePageState extends State<HomePage> {
           size: 30,
         ),
         backgroundColor: const Color.fromRGBO(108, 35, 217, 1),
+      ),
+      drawer: Drawer(
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Gap(20),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  "Welcome, ${userData.name}",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const Gap(10),
+              ListTile(
+                onTap: () {},
+                leading: const Icon(Icons.archive),
+                title: const Text("Archive"),
+              ),
+              const Gap(10),
+              ListTile(
+                onTap: () {
+                  context.read<AuthBloc>().add(AuthUserSignOut());
+                  AutoRouter.of(context).popUntilRoot();
+                },
+                leading: const Icon(Icons.logout),
+                title: const Text("Logout"),
+              ),
+              const Gap(10),
+            ],
+          ),
+        ),
       ),
     );
   }

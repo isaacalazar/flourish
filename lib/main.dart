@@ -20,7 +20,7 @@ void main() async {
       BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
       BlocProvider(create: (_) => serviceLocator<TransactionBloc>()),
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
@@ -38,6 +38,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    context.read<AuthBloc>().add(AuthGetUserData());
   }
 
   // This widget is the root of your application.

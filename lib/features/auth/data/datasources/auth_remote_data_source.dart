@@ -17,6 +17,8 @@ abstract interface class AuthRemoteDataSource {
   Session? get currentUserSession;
 
   Future<UserModel?> getUserCurrentData();
+
+  Future<void> signOut();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -104,6 +106,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
     } catch (e) {
       throw const CustomException("Client Auth not succeeded");
+    }
+  }
+
+  @override
+  Future<void> signOut() async {
+    try {
+      if (currentUserSession != null) {
+        await client.auth.signOut();
+      }
+    } catch (e) {
+      throw CustomException(e.toString());
     }
   }
 }
