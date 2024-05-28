@@ -49,11 +49,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final userDataResult = await _getUserData(NoParams());
 
       signInResult.fold((l) {
-        print("FAILED AUTH");
         emit(AuthFailure(l.message));
       }, (r) async {
         userDataResult.fold((l) => null, (r) {
-          print(r.toString());
           _appUserCubit.updateUser(r);
           return emit(AuthSuccess());
         });
