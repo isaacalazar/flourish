@@ -11,7 +11,7 @@ class Budget {
   final DateTime createdAt;
   final String? posterName;
   final String imageUrl;
-
+  //add archive value
   Budget({
     required this.budgetId,
     required this.budgetName,
