@@ -70,13 +70,13 @@ class _SignInScreenState extends State<SignInScreen> {
               const Padding(
                 padding: EdgeInsets.only(left: 4, bottom: 10),
                 child: Align(
+                  alignment: Alignment.centerLeft,
                   child: Text(
                     "Email",
                     style: TextStyle(
                       fontSize: 15,
                     ),
                   ),
-                  alignment: Alignment.centerLeft,
                 ),
               ),
               OnBoardTextField(
@@ -87,13 +87,13 @@ class _SignInScreenState extends State<SignInScreen> {
               const Padding(
                 padding: EdgeInsets.only(left: 4, bottom: 10),
                 child: Align(
+                  alignment: Alignment.centerLeft,
                   child: Text(
                     "Password",
                     style: TextStyle(
                       fontSize: 15,
                     ),
                   ),
-                  alignment: Alignment.centerLeft,
                 ),
               ),
               OnBoardTextField(
@@ -122,18 +122,18 @@ class _SignInScreenState extends State<SignInScreen> {
                             );
                       }
                     },
-                    child: const Text(
-                      "Sign In",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(41, 194, 69, 0.895),
                       minimumSize: const Size(double.infinity, 60),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    child: const Text(
+                      "Sign In",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
                       ),
                     ),
                   );
