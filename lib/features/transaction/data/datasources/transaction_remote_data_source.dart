@@ -30,7 +30,6 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
           .select()
           .single();
 
-      print(transactionData);
       return TransactionModel.fromJson(transactionData);
     } catch (e) {
       throw CustomException(e.toString());
