@@ -1,6 +1,6 @@
 # flourish
 
-A new Flutter project.
+Personal budgeting application.
 
 ## Getting Started
 
